@@ -737,7 +737,7 @@ body {
   margin: 20px 0;
 }
 .archive-category-groups .archive-category-title {
-  font-size: 22px;
+  font-size: 20px;
   margin-top: 20px;
 }
 .archive-category-groups .archive-category-postcount {
@@ -813,7 +813,6 @@ body {
   display: block;
   padding: 10px;
   background-color: #f9f9f9;
-  color: #333;
   font-style: normal;
   line-height: 18px;
 }
