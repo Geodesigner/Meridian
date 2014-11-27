@@ -15,17 +15,9 @@
               <div class="entry-body">
                 <?php the_content(''); ?>
               </div>
-              <div class="entry-extra clearfix">
-                <ul class="post-share clearfix">
-                  <li class=""><a href="http://service.weibo.com/share/share.php?title=<?php the_title(); ?>&url=<?php the_permalink(); ?>" class="share-item item-weibo" target="_blank" rel="nofollow" title="分享到新浪微博">新浪微博</a></li>
-                  <li class=""><a href="http://v.t.qq.com/share/share.php?title=<?php the_title(); ?>&url=<?php the_permalink(); ?>&site=<?php bloginfo('url');?>" class="share-item item-qqweibo" target="_blank" rel="nofollow" title="分享到腾讯微博">腾讯微博</a></li>
-                  <li class=""><a href="http://www.douban.com/recommend/?url=<?php the_permalink(); ?>&title=<?php the_title(); ?>" class="share-item item-douban" target="_blank" rel="nofollow" title="分享到豆瓣">豆瓣网</a></li>
-                  <li class=""><a href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=<?php the_permalink(); ?>&title=<?php the_title(); ?>" class="share-item item-qzone" target="_blank" rel="nofollow" title="分享到QQ空间">QQ空间</a></li>
-                  <li class=""><a href="http://share.renren.com/share/buttonshare?link=<?php the_permalink(); ?>&title=<?php the_title(); ?>" class="share-item item-renren" target="_blank" rel="nofollow" title="分享到人人网">人人网</a></li>
-                  <li class=""><a href="http://twitter.com/share?url=<?php the_permalink(); ?>&text=<?php the_title(); ?>" class="share-item item-twitter" target="_blank" rel="nofollow" title="分享到Twitter">Twitter</a></li>
-                </ul>
+              <div class="entry-extra">
                 <div class="post-tags">
-                  <?php if ( get_the_tags() ) { the_tags(); } else{ echo "暂无关键词！";  } ?>
+                  <?php if ( get_the_tags() ) { the_tags("文章关键词："); } else{ echo "暂无关键词！";  } ?>
                 </div>
               </div>
             </div>

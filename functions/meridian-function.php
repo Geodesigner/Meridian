@@ -41,8 +41,8 @@ register_nav_menus(array(
 // Enqueue style-file, if it exists.
 add_action('wp_enqueue_scripts', 'meridian_script');
 function meridian_script() {
-  wp_enqueue_style('style', TPLDIR . '/public/dist/css/main.css', array(), THEMEVER, 'screen');
-  wp_enqueue_script('script', TPLDIR . '/public/dist/js/main.js', array(), THEMEVER, false);
+  wp_enqueue_style('style', TPLDIR . '/public/dist/css/main.min.css', array(), THEMEVER, 'screen');
+  wp_enqueue_script('script', TPLDIR . '/public/dist/js/main.min.js', array(), THEMEVER, false);
 }
 
 // Pagenavi of archive and index part

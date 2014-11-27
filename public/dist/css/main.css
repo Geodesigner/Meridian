@@ -496,58 +496,6 @@ body {
 .entry .entry-extra {
   padding-top: 10px;
 }
-.entry .post-share {
-  float: right;
-  margin: 0;
-}
-.entry .post-share li {
-  float: left;
-  text-indent: -999em;
-}
-.entry .share-item {
-  margin: 0 5px;
-  width: 23px;
-  height: 23px;
-  float: left;
-  background: url(../img/icon.png) no-repeat;
-  cursor: pointer;
-}
-.entry .item-weibo {
-  background-position: 0 0;
-}
-.entry .item-weibo:hover {
-  background-position: 0 -57px;
-}
-.entry .item-qqweibo {
-  background-position: -30px 0;
-}
-.entry .item-qqweibo:hover {
-  background-position: -30px -57px;
-}
-.entry .item-douban {
-  background-position: -60px 0;
-}
-.entry .item-douban:hover {
-  background-position: -60px -57px;
-}
-.entry .item-qzone {
-  background-position: -90px 0;
-}
-.entry .item-qzone:hover {
-  background-position: -90px -57px;
-}
-.entry .item-renren {
-  background-position: -120px 0;
-}
-.entry .item-renren:hover {
-  background-position: -120px -57px;
-}
-.entry .item-twitter {
-  background-position: -150px 0;
-}
-.entry .item-twitter:hover {
-  background-position: -150px -57px;
-}
 #pagenavi {
   margin-bottom: 20px;
   text-align: center;

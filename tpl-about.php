@@ -19,7 +19,7 @@ get_header();?>
               </div>
             <?php endwhile; endif;?>
           </div>
-          <div id="pagenavi"><?php pagenavi();?></div>
+          <?php comments_template(); ?>
         </div>
       </div>
     </div><!-- #main -->
