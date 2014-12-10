@@ -356,7 +356,6 @@ body {
   margin: 1.64em 0;
   padding: 7px;
   border: none;
-  border-left: 3px solid #dadada;
   padding-left: 10px;
   overflow: auto;
   line-height: 1.5;
@@ -438,18 +437,19 @@ body {
   }
 }
 #header {
-  color: rgba(0, 0, 0, 0.3);
   height: 65px;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+  color: rgba(0, 0, 0, 0.3);
+  background-color: #f2f2f2;
 }
 #header .container {
   max-width: 960px;
   margin: 0 auto;
+  padding: 0 20px;
   line-height: 65px;
 }
 #header .logo {
   margin: 0;
-  font-size: 1.5em;
+  font-size: 1.6em;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -462,7 +462,6 @@ body {
   margin: 0 10px;
 }
 #header .menu li a {
-  color: rgba(0, 0, 0, 0.3);
   font-size: 0.9em;
   text-transform: uppercase;
 }
@@ -716,14 +715,16 @@ body {
   cursor: pointer;
 }
 #footer {
-  padding: 10px 0 20px;
-  text-align: center;
-  border-top: 1px solid #eee;
+  padding: 20px 0 30px;
   color: #999;
+  background-color: #f2f2f2;
 }
 #footer p {
   margin: 10px 0;
   font-size: 14px;
+}
+#footer a {
+  color: #444443;
 }
 @media (max-width: 768px) {
   .container {
