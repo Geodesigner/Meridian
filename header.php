@@ -16,7 +16,7 @@
         <h1 class="logo alignleft">
           <a href="<?php bloginfo('url');?>" title="<?php bloginfo('name'); ?>" rel="home">
             <!-- <img src="<?php/* echo TPLDIR;*/?>/images/logo.png" height="30" alt="<?php/* bloginfo('name'); */?>" /> -->
-            Stay Away
+            <?php bloginfo('name'); ?>
           </a>
         </h1>
         <?php wp_nav_menu(array( 'theme_location'=>'topMenu','container_class' => 'main-menu alignright')); ?>
