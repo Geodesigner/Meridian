@@ -19,6 +19,6 @@
             <?php bloginfo('name'); ?>
           </a>
         </h1>
-        <?php wp_nav_menu(array( 'theme_location'=>'topMenu','container_class' => 'main-menu alignright')); ?>
+        <?php wp_nav_menu(array( 'theme_location'=>'topMenu','container_class' => 'main-menu')); ?>
       </div>
     </div><!-- #header -->

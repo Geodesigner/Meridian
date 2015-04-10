@@ -23,6 +23,7 @@ else :
   get_template_part('functions/meridian-meta');
   get_template_part('functions/meridian-comment');
   get_template_part('functions/meridian-page');
+  get_template_part('functions/meridian-widget');
 endif;
 
 // Add rss feed
@@ -36,6 +37,15 @@ remove_action( 'wp_head', 'wlwmanifest_link' );
 // Register wordpress menu
 register_nav_menus(array(
   'topMenu' => '主菜单'
+));
+
+// Register wordpress sidebar
+register_sidebar(array(
+	'name'=>'sidebar',
+	'before_widget' => '<div class="widget">',
+	'after_widget' => '</div>',
+	'before_title' => '<h3>',
+	'after_title' => '</h3>'
 ));
 
 // Enqueue style-file, if it exists.
@@ -131,6 +141,81 @@ function meridian_thumbnail($width=130, $height=130){
   );
 }
 
+add_filter( 'widget_tag_cloud_args', 'theme_tag_cloud_args' );
+function theme_tag_cloud_args( $args ){
+	$newargs = array(
+		'smallest'    => 0.8,  //最小字号
+		'largest'     => 0.8, //最大字号
+		'unit'        => 'em',   //字号单位，可以是pt、px、em或%
+		'number'      => 20,     //显示个数
+		'format'      => 'flat',//列表格式，可以是flat、list或array
+		'separator'   => "\n",   //分隔每一项的分隔符
+		'orderby'     => 'name',//排序字段，可以是name或count
+		'order'       => 'DESC', //升序或降序，ASC或DESC
+		'exclude'     => null,   //结果中排除某些标签
+		'include'     => null,  //结果中只包含这些标签
+		'link'        => 'view', //taxonomy链接，view或edit
+		'taxonomy'    => 'post_tag', //调用哪些分类法作为标签云
+	);
+	$return = array_merge( $args, $newargs);
+	return $return;
+}
+
+//Human time diff
+function time_diff( $from, $to = '' ) {
+  if ( empty( $to ) )
+    $to = time();
+  $diff = (int) abs( $to - $from );
+  if ( $diff <= HOUR_IN_SECONDS ) {
+    $mins = round( $diff / MINUTE_IN_SECONDS );
+    if ( $mins <= 1 ) {
+      $mins = 1;
+    }
+
+    if ( $mins == 1 ) {
+      $since = sprintf('%s min ago', $mins);
+    } else {
+      $since = sprintf('%s mins ago', $mins);
+    }
+  } elseif ( ( $diff <= DAY_IN_SECONDS ) && ( $diff > HOUR_IN_SECONDS ) ) {
+    $hours = round( $diff / HOUR_IN_SECONDS );
+    if ( $hours <= 1 ) {
+      $hours = 1;
+    }
+
+    if ( $hours == 1 ) {
+      $since = sprintf('%s hour ago', $hours);
+    } else {
+      $since = sprintf('%s hours ago', $hours);
+    }
+  } elseif ( ($diff <= WEEK_IN_SECONDS ) && ( $diff > DAY_IN_SECONDS ) ) {
+    $days = round( $diff / DAY_IN_SECONDS );
+    if ( $days <= 1 ) {
+      $days = 1;
+    }
+
+    if ( $days == 1 ) {
+      $since = sprintf('%s day ago', $days);
+    } else {
+      $since = sprintf('%s days ago', $days);
+    }
+  } elseif ( $diff > WEEK_IN_SECONDS ) {
+    $weeks = round( $diff / WEEK_IN_SECONDS );
+    if ( $weeks <= 1 ) {
+      $weeks = 1;
+    }
+
+    if ( $weeks == 1 ) {
+      $since = sprintf('%s week ago', $weeks);
+    } elseif ( ($weeks > 1) && ($weeks <= 4) )  {
+      $since = sprintf('%s weeks ago', $weeks);
+    } else {
+      $since = date('M d, Y', $from);
+    }
+  }
+  return $since;
+}
+
 // Avatar
 function local_avatar($avatar) {
   $tmp = strpos($avatar, 'http');
@@ -146,13 +231,13 @@ function local_avatar($avatar) {
   if (filesize($e) < 500) copy($w.'/avatar/default.jpg', $e);
   return $avatar;
 }
-//add_filter('get_avatar', 'local_avatar');
+/* add_filter('get_avatar', 'local_avatar'); */
 
 function get_v2ex_avatar($avatar) {
   $avatar = preg_replace('/.*\/avatar\/(.*)\?s=([\d]+)&.*/','<img src="https://cdn.v2ex.com/gravatar/$1?s=$2" class="avatar avatar-$2" height="$2" width="$2">',$avatar);
   return $avatar;
 }
-add_filter('get_avatar', 'get_v2ex_avatar');
+/* add_filter('get_avatar', 'get_v2ex_avatar'); */
 
 /*
  * Escape special characters in pre.prettyprint into their HTML entities
@@ -201,5 +286,6 @@ function parse_content_code($matches) {
 
 add_filter('the_content', 'meridian_esc_html');
 add_filter('comment_text', 'meridian_esc_html');
+
 
 ?>

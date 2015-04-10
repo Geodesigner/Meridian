@@ -7,7 +7,7 @@ get_header();?>
     <div id="main">
       <div class="container yue">
         <div id="content">
-          <div id="entry-gallery">
+          <div class="template">
             <?php if(have_posts()):while (have_posts()) : the_post();?>
               <div class="entry page" id="post-<?php the_ID();?>">
                 <div class="entry-header">

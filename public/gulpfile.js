@@ -23,7 +23,7 @@ gulp.task('clean', function(cb) {
 });
 
 // Scripts
-gulp.task('scripts', ['clean'], function() {
+gulp.task('scripts', function() {
   // Minify and copy all JavaScript (except vendor scripts)
   // with sourcemaps all the way down
   return gulp.src(paths.scripts)
@@ -35,7 +35,7 @@ gulp.task('scripts', ['clean'], function() {
 });
 
 // Styles
-gulp.task('styles', ['clean'], function() {
+gulp.task('styles', function() {
   return gulp.src(paths.styles)
     .pipe(less())
     .pipe(gulp.dest('dist/css'))
@@ -45,7 +45,7 @@ gulp.task('styles', ['clean'], function() {
 });
 
 // Copy all static images
-gulp.task('images', ['clean'], function() {
+gulp.task('images', function() {
   return gulp.src(paths.images)
     // Pass in options to the task
     .pipe(imagemin({optimizationLevel: 5}))
@@ -54,9 +54,9 @@ gulp.task('images', ['clean'], function() {
 
 // Rerun the task when a file changes
 gulp.task('watch', function() {
-  gulp.watch(paths.scripts, ['scripts', 'styles', 'images']);
-  gulp.watch('src/styles/*.less', ['scripts', 'styles', 'images']);
-  gulp.watch(paths.images, ['scripts', 'styles', 'images']);
+  gulp.watch(paths.scripts, ['scripts']);
+  gulp.watch('src/styles/*.less', ['styles']);
+  gulp.watch(paths.images, ['images']);
 });
 
 // The default task (called when you run `gulp` from cli)
