@@ -112,33 +112,21 @@ function count_words ($text) {
 
 // Post thumbnail
 add_theme_support( 'post-thumbnails' );
-function meridian_thumbnail($width=130, $height=130){
+function meridian_thumbnail($width=620, $height=180){
   global $post;
   $title = $post->post_title;
   if( has_post_thumbnail() ){
     $timthumb_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID),'full');
-    $src = $timthumb_src[0];
-    return array(
-      "hasThumbnail" => true,
-      "src" => TPLDIR . "/timthumb.php&#63;src={$src}&#38;w={$width}&#38;h={$height}&#38;zc=1&#38;q=100"
-    );
+    $post_timthumb = '<img src="'.get_bloginfo("template_url").'/timthumb.php?src='.$timthumb_src[0].'&amp;h='.$height.'&amp;w='.$width.'&amp;zc=1" alt="'.$post->post_title.'" class="thumb" />';
+    echo $post_timthumb;
   }else{
-    ob_start();
-    ob_end_clean();
-    $output = preg_match_all('/\<img.+?src="(.+?)".*?\/>/is',$post->post_content,$matches ,PREG_SET_ORDER);
-    $cnt = count( $matches );
-    if($cnt>0){
-      $src = $matches[0][1];
-      return array(
-        "hasThumbnail" => true,
-        "src" => TPLDIR . "/timthumb.php&#63;src={$src}&#38;w={$width}&#38;h={$height}&#38;zc=1&#38;q=100"
-      );
-    }
-  }
-  return array(
-    "hasThumbnail" => false,
-    "src" => null
-  );
+    $content = $post->post_content;
+    preg_match_all('/<img.*?(?: |\\t|\\r|\\n)?src=[\'"]?(.+?)[\'"]?(?:(?: |\\t|\\r|\\n)+.*?)?>/sim', $content, $strResult, PREG_PATTERN_ORDER);
+		$n = count($strResult[1]);
+		if($n > 0){
+			echo '<img src="'.$strResult[1][0].'?imageView2/1/w/'.$width.'/h/'.$height.'" />';
+		}
+	}
 }
 
 add_filter( 'widget_tag_cloud_args', 'theme_tag_cloud_args' );
@@ -231,7 +219,7 @@ function local_avatar($avatar) {
   if (filesize($e) < 500) copy($w.'/avatar/default.jpg', $e);
   return $avatar;
 }
-/* add_filter('get_avatar', 'local_avatar'); */
+add_filter('get_avatar', 'local_avatar');
 
 function get_v2ex_avatar($avatar) {
   $avatar = preg_replace('/.*\/avatar\/(.*)\?s=([\d]+)&.*/','<img src="https://cdn.v2ex.com/gravatar/$1?s=$2" class="avatar avatar-$2" height="$2" width="$2">',$avatar);

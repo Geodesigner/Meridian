@@ -446,7 +446,7 @@ body {
 .home .main-menu ul,
 .tag .main-menu ul,
 .category .main-menu ul {
-  max-width: 620px;
+  max-width: 600px;
 }
 .single .main-menu,
 .page .main-menu,
@@ -475,7 +475,7 @@ body {
 }
 #header .logo {
   margin: 0 0 0 20px;
-  font-size: 1.4em;
+  font-size: 1.6em;
   letter-spacing: 2px;
 }
 #header .main-menu {
@@ -497,9 +497,10 @@ body {
 }
 #main {
   position: relative;
+  color: rgba(0, 0, 0, 0.8);
 }
 #main .entry-list {
-  max-width: 620px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -821,11 +822,10 @@ body {
 }
 #sidebar .sidebar-footer p,
 #sidebar .sidebar-footer a {
-  margin-right: 10px;
+  padding: 0;
   font-size: 11px;
   line-height: inherit;
   border-width: 0;
-  padding: 0;
   vertical-align: baseline;
   color: rgba(0, 0, 0, 0.3);
   white-space: normal;
