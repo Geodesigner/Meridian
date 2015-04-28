@@ -155,6 +155,11 @@ function meridian_ajax_comment(){
     if ( '' == $comment_content )
       ajax_comment_err( __('请输入评论.') ); // 將 wp_die 改為錯誤提示
 
+    // 增加: 禁止全英文评论
+    $pattern = '/[一-龥]/u';
+    if(!preg_match($pattern, $comment_content)) {
+      ajax_comment_err(__('You should type some Chinese word (like "你好") in your comment !'));
+    }
 
     // 增加: 檢查重覆評論功能
     $dupe = "SELECT comment_ID FROM $wpdb->comments WHERE comment_post_ID = '$comment_post_ID' AND ( comment_author = '$comment_author' ";

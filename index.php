@@ -11,7 +11,7 @@
                     <div class="meta-avatar">
                       <?php echo get_avatar($post->post_author, 36); ?>
                     </div>
-                    <div class="meta-feedSummary">
+                    <div class="meta-summary">
                       <span><?php the_author() ?></span>
                       <span class="meta-supplemental"><?php echo time_diff(get_the_time('U'), current_time('timestamp')); ?></span>
                     </div>

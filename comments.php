@@ -69,7 +69,7 @@
         <div id="author_textarea">
           <textarea name="comment" id="comment" class="textarea" cols="105" rows="14" tabindex="4" onkeydown="if(event.ctrlKey&&event.keyCode==13){document.getElementById('submit').click();return false};"></textarea>
         </div>
-        <p><input id="submit" type="submit" name="submit" value="<?php _e('SUBMIT / Ctrl+Enter'); ?>" class="submit" /></p>
+        <p><input id="submit" type="submit" name="submit" value="<?php _e('Submit / Ctrl+Enter'); ?>" class="submit" /></p>
       <?php comment_id_fields(); ?>
       <?php do_action('comment_form', $post->ID); ?>
     </form>

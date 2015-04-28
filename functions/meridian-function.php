@@ -9,8 +9,6 @@
  *
  */
 
-define('IsMobile', wp_is_mobile());
-
 define('THEMEVER', "1.0");
 
 define("TPLDIR", get_bloginfo('template_directory'));
@@ -110,25 +108,6 @@ function count_words ($text) {
   }
 }
 
-// Post thumbnail
-add_theme_support( 'post-thumbnails' );
-function meridian_thumbnail($width=620, $height=180){
-  global $post;
-  $title = $post->post_title;
-  if( has_post_thumbnail() ){
-    $timthumb_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID),'full');
-    $post_timthumb = '<img src="'.get_bloginfo("template_url").'/timthumb.php?src='.$timthumb_src[0].'&amp;h='.$height.'&amp;w='.$width.'&amp;zc=1" alt="'.$post->post_title.'" class="thumb" />';
-    echo $post_timthumb;
-  }else{
-    $content = $post->post_content;
-    preg_match_all('/<img.*?(?: |\\t|\\r|\\n)?src=[\'"]?(.+?)[\'"]?(?:(?: |\\t|\\r|\\n)+.*?)?>/sim', $content, $strResult, PREG_PATTERN_ORDER);
-		$n = count($strResult[1]);
-		if($n > 0){
-			echo '<img src="'.$strResult[1][0].'?imageView2/1/w/'.$width.'/h/'.$height.'" />';
-		}
-	}
-}
-
 add_filter( 'widget_tag_cloud_args', 'theme_tag_cloud_args' );
 function theme_tag_cloud_args( $args ){
 	$newargs = array(
@@ -219,7 +198,7 @@ function local_avatar($avatar) {
   if (filesize($e) < 500) copy($w.'/avatar/default.jpg', $e);
   return $avatar;
 }
-add_filter('get_avatar', 'local_avatar');
+/* add_filter('get_avatar', 'local_avatar'); */
 
 function get_v2ex_avatar($avatar) {
   $avatar = preg_replace('/.*\/avatar\/(.*)\?s=([\d]+)&.*/','<img src="https://cdn.v2ex.com/gravatar/$1?s=$2" class="avatar avatar-$2" height="$2" width="$2">',$avatar);
@@ -241,6 +220,25 @@ function meridian_esc_html($content) {
   $content = preg_replace_callback($regex, parse_content_code, $content);
 
   return $content;
+}
+
+// Post thumbnail
+add_theme_support( 'post-thumbnails' );
+function meridian_thumbnail($width=620, $height=180){
+  global $post;
+  $title = $post->post_title;
+  if( has_post_thumbnail() ){
+    $timthumb_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID),'full');
+    $post_timthumb = '<img src="'.get_bloginfo("template_url").'/timthumb.php?src='.$timthumb_src[0].'&amp;h='.$height.'&amp;w='.$width.'&amp;zc=1" alt="'.$post->post_title.'" class="thumb" />';
+    echo $post_timthumb;
+  }else{
+    $content = $post->post_content;
+    preg_match_all('/<img.*?(?: |\\t|\\r|\\n)?src=[\'"]?(.+?)[\'"]?(?:(?: |\\t|\\r|\\n)+.*?)?>/sim', $content, $strResult, PREG_PATTERN_ORDER);
+		$n = count($strResult[1]);
+		if($n > 0){
+			echo '<img src="'.$strResult[1][0].'?imageView2/1/w/'.$width.'/h/'.$height.'" />';
+		}
+	}
 }
 
 function parse_content_pre($matches) {
@@ -275,5 +273,48 @@ function parse_content_code($matches) {
 add_filter('the_content', 'meridian_esc_html');
 add_filter('comment_text', 'meridian_esc_html');
 
+// 垃圾评论拦截
+class anti_spam {
+  function anti_spam() {
+    if ( !current_user_can('level_0') ) {
+      add_action('template_redirect', array($this, 'w_tb'), 1);
+      add_action('init', array($this, 'gate'), 1);
+      add_action('preprocess_comment', array($this, 'sink'), 1);
+    }
+  }
+
+  function w_tb() {
+    if ( is_singular() ) {
+      ob_start(create_function('$input','return preg_replace("#textarea(.*?)name=([\"\'])comment([\"\'])(.+)/textarea>#",
+                "textarea$1name=$2w$3$4/textarea><textarea name=\"comment\" cols=\"100%\" rows=\"4\" style=\"display:none\"></textarea>",$input);') );
+    }
+  }
+
+  function gate() {
+    if ( !empty($_POST['w']) && empty($_POST['comment']) ) {
+      $_POST['comment'] = $_POST['w'];
+    } else {
+      $request = $_SERVER['REQUEST_URI'];
+      $referer = isset($_SERVER['HTTP_REFERER'])         ? $_SERVER['HTTP_REFERER']         : '隐瞒';
+      $IP      = isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] . ' (透过D理)' : $_SERVER["REMOTE_ADDR"];
+      $way     = isset($_POST['w'])                      ? '手动操作'                       : '未经评论表格';
+      $spamcom = isset($_POST['comment'])                ? $_POST['comment']                : null;
+      $_POST['spam_confirmed'] = "请求: ". $request. "\n来路: ". $referer. "\nIP: ". $IP. "\n方式: ". $way. "\n內容: ". $spamcom. "\n -- 记录成功 --";
+    }
+  }
+
+  function sink( $comment ) {
+    if ( !empty($_POST['spam_confirmed']) ) {
+      if ( in_array( $comment['comment_type'], array('pingback', 'trackback') ) ) return $comment;
+      //方法一: 直接挡掉, 將 die(); 前面两斜线刪除即可.
+      //die();
+      //方法二: 标记为 spam, 留在资料库检查是否误判.
+      add_filter('pre_comment_approved', create_function('', 'return "spam";'));
+      $comment['comment_content'] = "[ 判断这是 Spam! ]\n". $_POST['spam_confirmed'];
+    }
+    return $comment;
+  }
+}
+$anti_spam = new anti_spam();
 
 ?>
