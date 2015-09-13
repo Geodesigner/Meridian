@@ -13,8 +13,8 @@
                 <?php the_content(''); ?>
               </div>
               <div class="entry-extra">
-                <div class="post-tags">
-                  <?php if ( get_the_tags() ) { the_tags("文章关键词："); } else{ echo "暂无关键词！";  } ?>
+                <div class="entry-tags">
+                  <?php if ( get_the_tags() ) { the_tags("关键词：", ", "); } else{ echo "";  } ?>
                 </div>
               </div>
             </div>

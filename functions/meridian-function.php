@@ -1,15 +1,6 @@
 <?php
-/*
- * @package      Meridian-function
- * @version      1.0
- * @author       DaoJing Gao <me@gaodaojing.com>
- * @copyright    2014 all rights reserved
- * @license:     GNU General Public License v2 or later
- * @license URI: http://www.gnu.org/licenses/gpl-2.0.html
- *
- */
 
-define('THEMEVER', "1.0");
+define('THEMEVER', "1.1");
 
 define("TPLDIR", get_bloginfo('template_directory'));
 
@@ -31,6 +22,15 @@ add_theme_support( 'automatic-feed-links' );
 remove_action( 'wp_head', 'wp_generator' );
 remove_action( 'wp_head', 'rsd_link' );
 remove_action( 'wp_head', 'wlwmanifest_link' );
+
+// WordPress Emoji Delete
+remove_action( 'admin_print_scripts', 'print_emoji_detection_script');
+remove_action( 'admin_print_styles', 'print_emoji_styles');
+remove_action( 'wp_head', 'print_emoji_detection_script', 7);
+remove_action( 'wp_print_styles', 'print_emoji_styles');
+remove_filter( 'the_content_feed', 'wp_staticize_emoji');
+remove_filter( 'comment_text_rss', 'wp_staticize_emoji');
+remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email');
 
 // Register wordpress menu
 register_nav_menus(array(
@@ -184,27 +184,34 @@ function time_diff( $from, $to = '' ) {
 }
 
 // Avatar
-function local_avatar($avatar) {
-  $tmp = strpos($avatar, 'http');
-  $g = substr($avatar, $tmp, strpos($avatar, "'", $tmp) - $tmp);
-  $tmp = strpos($g, 'avatar/') + 7;
-  $f = substr($g, $tmp, strpos($g, "?", $tmp) - $tmp);
-  $w = get_bloginfo('wpurl');
-  $e = ABSPATH .'avatar/'. $f .'.jpg';
-  $t = 1209600; //設定14天, 單位:秒
-  if ( !is_file($e) || (time() - filemtime($e)) > $t ) { //當頭像不存在或文件超過14天才更新
-    copy(htmlspecialchars_decode($g), $e);
-  } else  $avatar = strtr($avatar, array($g => $w.'/avatar/'.$f.'.jpg'));
-  if (filesize($e) < 500) copy($w.'/avatar/default.jpg', $e);
-  return $avatar;
+function meridian_cache_avatar($avatar, $id_or_email, $size, $alt)
+{
+    $avatar = str_replace(array("www.gravatar.com", "0.gravatar.com", "1.gravatar.com", "2.gravatar.com"), "cn.gravatar.com", $avatar);
+    $tmp = strpos($avatar, 'http');
+    $url = get_avatar_url( $id_or_email, $size );
+    //$url = str_replace(array("www.gravatar.com", "0.gravatar.com", "1.gravatar.com", "2.gravatar.com"), "cn.gravatar.com", $url);
+    $url2x = get_avatar_url( $id_or_email, ( $size * 2 ) );
+    //$url2x = str_replace(array("www.gravatar.com", "0.gravatar.com", "1.gravatar.com", "2.gravatar.com"), "cn.gravatar.com", $url2x);
+    $g = substr($avatar, $tmp, strpos($avatar, "'", $tmp) - $tmp);
+    $tmp = strpos($g, 'avatar/') + 7;
+    $f = substr($g, $tmp, strpos($g, "?", $tmp) - $tmp);
+    $w = get_bloginfo('wpurl');
+    $e = ABSPATH .'avatar/'. $size . '@'. $f .'.jpg';
+    $e2x = ABSPATH .'avatar/'. ( $size * 2 ) . '@'. $f .'.jpg';
+    $t = 604800; 
+    if ( (!is_file($e) || (time() - filemtime($e)) > $t) && (!is_file($e2x) || (time() - filemtime($e2x)) > $t ) ) { 
+        copy(htmlspecialchars_decode($g), $e);
+        copy(htmlspecialchars_decode($url2x), $e2x);
+    } else {
+        $avatar = $w.'/avatar/'. $size . '@'.$f.'.jpg';
+        $avatar2x = $w.'/avatar/'. ( $size * 2) . '@'.$f.'.jpg';
+        if (filesize($e) < 1000) copy($w.'/avatar/default.jpg', $e);
+        if (filesize($e2x) < 1000) copy($w.'/avatar/default.jpg', $e2x);
+        $avatar = "<img alt='{$alt}' src='{$avatar}' srcset='{$avatar2x}' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+    }
+    return $avatar;
 }
-/* add_filter('get_avatar', 'local_avatar'); */
-
-function get_v2ex_avatar($avatar) {
-  $avatar = preg_replace('/.*\/avatar\/(.*)\?s=([\d]+)&.*/','<img src="https://cdn.v2ex.com/gravatar/$1?s=$2" class="avatar avatar-$2" height="$2" width="$2">',$avatar);
-  return $avatar;
-}
-/* add_filter('get_avatar', 'get_v2ex_avatar'); */
+add_filter('get_avatar', 'meridian_cache_avatar',1,5);
 
 /*
  * Escape special characters in pre.prettyprint into their HTML entities
@@ -229,14 +236,17 @@ function meridian_thumbnail($width=620, $height=180){
   $title = $post->post_title;
   if( has_post_thumbnail() ){
     $timthumb_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID),'full');
-    $post_timthumb = '<img src="'.get_bloginfo("template_url").'/timthumb.php?src='.$timthumb_src[0].'&amp;h='.$height.'&amp;w='.$width.'&amp;zc=1" alt="'.$post->post_title.'" class="thumb" />';
+    //$post_timthumb = '<img src="'.get_bloginfo("template_url").'/timthumb.php?src='.$timthumb_src[0].'&amp;h='.$height.'&amp;w='.$width.'&amp;zc=1" alt="'.$post->post_title.'" class="thumb" />';
+    //$post_timthumb = '<img src="'.$timthumb_src[0].'?imageMogr2/thumbnail/'.$width.'x'.$height.'!" />'; //qiniu
+    $post_timthumb = '<img src="'.$timthumb_src[0].'!thumb" />'; //upyun
     echo $post_timthumb;
   }else{
     $content = $post->post_content;
     preg_match_all('/<img.*?(?: |\\t|\\r|\\n)?src=[\'"]?(.+?)[\'"]?(?:(?: |\\t|\\r|\\n)+.*?)?>/sim', $content, $strResult, PREG_PATTERN_ORDER);
 		$n = count($strResult[1]);
 		if($n > 0){
-			echo '<img src="'.$strResult[1][0].'?imageView2/1/w/'.$width.'/h/'.$height.'" />';
+			//echo '<img src="'.$strResult[1][0].'?imageMogr2/thumbnail/'.$width.'x'.$height.'!" />'; //qiniu
+			echo '<img src="'.$strResult[1][0].'!thumb" />'; //upyun
 		}
 	}
 }

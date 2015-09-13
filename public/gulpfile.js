@@ -10,7 +10,7 @@ var del = require('del');
 var paths = {
   scripts: ['src/scripts/jquery-1.8.3.min.js',
             'src/scripts/prettify.js',
-            'src/scripts/base.js'],
+            'src/scripts/meridian.js'],
   styles: ['src/styles/main.less'],
   images: 'src/images/**/*'
 };

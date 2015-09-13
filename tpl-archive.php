@@ -14,7 +14,7 @@ get_header();?>
                   <h2 class="entry-title"><a href="<?php the_permalink(); ?>" title="<?php the_title();?>"><?php the_title();?></a></h2>
                 </div>
                 <div class="entry-body">
-                  <?php echo meridian_archives_list(); ?>
+                  <?php echo page_archives_list(); ?>
                 </div>
               </div>
             <?php endwhile; endif;?>

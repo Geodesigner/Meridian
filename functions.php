@@ -3,11 +3,10 @@
  * Meridian's functions file
  *
  * @package      Meridian
- * @version      1.0
- * @author       DaoJing Gao <me@gaodaojing.com>
+ * @version      1.1
+ * @author       Geladon <me@gaodaojing.com>
  * @copyright    2014 all rights reserved
- * @license:     GNU General Public License v2 or later
- * @license URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * @license:     New BSD License
  *
  */
 

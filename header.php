@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
   <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta charset="utf-8">
     <?php meridian_meta();?>
     <?php wp_head(); ?>
     <script>
@@ -15,7 +15,6 @@
       <div class="container yue clearfix">
         <h1 class="logo alignleft">
           <a href="<?php bloginfo('url');?>" title="<?php bloginfo('name'); ?>" rel="home">
-            <!-- <img src="<?php/* echo TPLDIR;*/?>/images/logo.png" height="30" alt="<?php/* bloginfo('name'); */?>" /> -->
             <?php bloginfo('name'); ?>
           </a>
         </h1>

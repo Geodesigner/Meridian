@@ -1,13 +1,4 @@
 <?php
-/*
- * @package      Meridian-function
- * @version      1.0
- * @author       DaoJing Gao <me@gaodaojing.com>
- * @copyright    2014 all rights reserved
- * @license:     GNU General Public License v2 or later
- * @license URI: http://www.gnu.org/licenses/gpl-2.0.html
- *
- */
 
 // Comment mail notify
 function comment_mail_notify($comment_id) {

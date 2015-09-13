@@ -1,15 +1,6 @@
 <?php
-/*
- * @package      Meridian-function
- * @version      1.0
- * @author       DaoJing Gao <me@gaodaojing.com>
- * @copyright    2014 all rights reserved
- * @license:     GNU General Public License v2 or later
- * @license URI: http://www.gnu.org/licenses/gpl-2.0.html
- *
- */
 
-function meridian_categories_list($hide_empty = false){
+function page_categories_list($hide_empty = false){
   $output = '<div class="archive-category-groups">';
   $cateargs = array(
     'hide_empty' => $hide_empty
@@ -31,7 +22,7 @@ function meridian_categories_list($hide_empty = false){
   return $output;
 }
 
-function meridian_archives_list() {
+function page_archives_list() {
   $the_query = new WP_Query( 'posts_per_page=-1&ignore_sticky_posts=1' );
   $year=0; $mon=0; $i=0; $j=0;
   $all = array();

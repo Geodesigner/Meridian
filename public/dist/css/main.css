@@ -90,12 +90,6 @@ audio,
 video {
   display: block;
 }
-ul,
-li,
-ol {
-  list-style: none;
-  background: transparent;
-}
 h1,
 h2,
 h3,
@@ -487,6 +481,7 @@ body {
 #header .main-menu ul {
   margin: 0 auto;
   padding: 0;
+  list-style: none;
 }
 #header .main-menu li {
   display: inline-block;
@@ -510,63 +505,66 @@ body {
   margin: 0 auto;
   padding: 0 1.25em;
 }
-#main .entry {
+.entry {
   padding: 2.2em 0 2em;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-#main .entry .entry-meta {
+.entry .entry-meta {
   font-size: .9em;
   font-family: Optima, "Helvetica Neue", sans-serif;
   color: #999;
 }
-#main .entry .entry-meta a {
+.entry .entry-meta a {
   color: rgba(0, 0, 0, 0.44);
 }
-#main .entry .entry-meta .meta-avatar {
+.entry .entry-meta .meta-avatar {
   display: table-cell;
   line-height: 0;
 }
-#main .entry .entry-meta .meta-summary {
+.entry .entry-meta .meta-summary {
   display: table-cell;
   padding-left: .65em;
   vertical-align: middle;
   line-height: 1.4;
 }
-#main .entry .entry-meta .meta-supplemental {
+.entry .entry-meta .meta-supplemental {
   display: block;
   color: rgba(0, 0, 0, 0.3);
   font-size: .75em;
   line-height: 1.1;
 }
-#main .entry .entry-header {
+.entry .entry-header {
   margin-top: .65em;
 }
-#main .entry .entry-header .entry-title {
+.entry .entry-header .entry-title {
   margin: .2em 0 .3em;
 }
-#main .entry .entry-body img {
+.entry .entry-body img {
   display: block;
   margin: 0 auto;
 }
-#main .entry .entry-body p {
+.entry .entry-body p {
   color: rgba(0, 0, 0, 0.7);
 }
-#main .entry .entry-footer a {
+.entry .entry-footer a {
   color: #57ad68;
   font-size: .9em;
 }
-#main .entry .entry-footer a:hover {
+.entry .entry-footer a:hover {
   color: #468c54;
 }
-#main .entry .entry-footer span {
+.entry .entry-footer span {
   font-size: .9em;
 }
-#main .entry .entry-footer .middotDivider {
+.entry .entry-footer .middotDivider {
   padding-right: .45em;
   padding-left: .45em;
 }
-#main .entry .entry-footer .middotDivider:after {
-  content: "·";
+.entry .entry-footer .middotDivider:after {
+  content: ".";
+}
+.template .entry {
+  border-bottom: 0 none;
 }
 #pagenavi {
   padding: 1.25em 0 1.9em;
@@ -600,12 +598,16 @@ body {
   display: block;
   margin: 0 auto;
 }
+.entry-detail .entry-body a {
+  text-decoration: underline;
+}
 .entry-comment {
   padding: 30px 0;
   background: #fafafa;
 }
 .entry-comment ul,
 .entry-comment ol {
+  list-style: none;
   padding: 0;
 }
 .entry-comment #comments {
@@ -664,6 +666,7 @@ body {
   color: #a5a5a5;
 }
 .entry-comment .children {
+  list-style: none;
   position: relative;
   z-index: 5;
   margin-left: 70px;
@@ -779,17 +782,17 @@ body {
   border-radius: 3px;
 }
 .respond #submit {
-  height: 38px;
+  margin-top: 5px;
   padding: 0 16px;
   color: #57ad68;
   background: rgba(0, 0, 0, 0);
   font-size: .9em;
+  height: 38px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
   border: 1px solid #a9d8b2;
-  border-radius: 999em;
-  letter-spacing: -0.02em;
+  border-radius: 3px;
 }
 .respond #submit:hover {
   border-color: #57ad68;
@@ -811,9 +814,6 @@ body {
   letter-spacing: .1em;
   text-transform: uppercase;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-#sidebar .widget-populars ul {
-  padding: 0;
 }
 #sidebar .widget-populars span,
 #sidebar .widget-populars a {
@@ -962,101 +962,68 @@ body {
   color: #888;
   padding-right: 10px;
 }
-/* Pretty printing styles. Used with prettify.js. */
-/* SPAN elements with the classes below are added by prettyprint. */
-.pln {
-  color: #000000;
+/* desert scheme ported from vim to google prettify */
+pre .str {
+  color: #ffa0a0;
 }
-/* plain text */
-@media screen {
-  .str {
-    color: #008800;
-  }
-  /* string content */
-  .kwd {
-    color: #000088;
-  }
-  /* a keyword */
-  .com {
-    color: #880000;
-  }
-  /* a comment */
-  .typ {
-    color: #660066;
-  }
-  /* a type name */
-  .lit {
-    color: #006666;
-  }
-  /* a literal value */
-  /* punctuation, lisp open bracket, lisp close bracket */
-  .pun,
-  .opn,
-  .clo {
-    color: #666600;
-  }
-  .tag {
-    color: #000088;
-  }
-  /* a markup tag name */
-  .atn {
-    color: #660066;
-  }
-  /* a markup attribute name */
-  .atv {
-    color: #008800;
-  }
-  /* a markup attribute value */
-  .dec,
-  .var {
-    color: #660066;
-  }
-  /* a declaration; a variable name */
-  .fun {
-    color: #ff0000;
-  }
-  /* a function name */
+/* string  - pink */
+pre .kwd {
+  color: #f0e68c;
+  font-weight: bold;
 }
-/* Use higher contrast and text-weight for printable form. */
-@media print, projection {
-  .str {
-    color: #006600;
-  }
-  .kwd {
-    color: #006;
-    font-weight: bold;
-  }
-  .com {
-    color: #600;
-    font-style: italic;
-  }
-  .typ {
-    color: #404;
-    font-weight: bold;
-  }
-  .lit {
-    color: #004444;
-  }
-  .pun,
-  .opn,
-  .clo {
-    color: #444400;
-  }
-  .tag {
-    color: #006;
-    font-weight: bold;
-  }
-  .atn {
-    color: #440044;
-  }
-  .atv {
-    color: #006600;
-  }
+pre .com {
+  color: #87ceeb;
+}
+/* comment - skyblue */
+pre .typ {
+  color: #98fb98;
+}
+/* type    - lightgreen */
+pre .lit {
+  color: #cd5c5c;
+}
+/* literal - darkred */
+pre .pun {
+  color: #ffffff;
+}
+/* punctuation */
+pre .pln {
+  color: #ffffff;
+}
+/* plaintext */
+pre .tag {
+  color: #f0e68c;
+  font-weight: bold;
+}
+/* html/xml tag    - lightyellow */
+pre .atn {
+  color: #bdb76b;
+  font-weight: bold;
+}
+/* attribute name  - khaki */
+pre .atv {
+  color: #ffa0a0;
+}
+/* attribute value - pink */
+pre .dec {
+  color: #98fb98;
+}
+/* decimal         - lightgreen */
+pre.prettyprint {
+  background-color: #333;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  border-radius: 3px;
+  white-space: pre-wrap;
 }
 /* Specify class=linenums on a pre to get line numbering */
 ol.linenums {
   margin-top: 0;
   margin-bottom: 0;
+  color: #aeaeae;
 }
 /* IE indents via margin-left */
 li.L0,
@@ -1070,10 +1037,52 @@ li.L8 {
   list-style-type: none;
 }
 /* Alternate shading for lines */
-li.L1,
-li.L3,
-li.L5,
-li.L7,
-li.L9 {
-  background: #eeeeee;
+@media print {
+  pre.prettyprint {
+    background-color: none;
+  }
+  pre .str,
+  code .str {
+    color: #006600;
+  }
+  pre .kwd,
+  code .kwd {
+    color: #006;
+    font-weight: bold;
+  }
+  pre .com,
+  code .com {
+    color: #600;
+    font-style: italic;
+  }
+  pre .typ,
+  code .typ {
+    color: #404;
+    font-weight: bold;
+  }
+  pre .lit,
+  code .lit {
+    color: #004444;
+  }
+  pre .pun,
+  code .pun {
+    color: #444400;
+  }
+  pre .pln,
+  code .pln {
+    color: #000000;
+  }
+  pre .tag,
+  code .tag {
+    color: #006;
+    font-weight: bold;
+  }
+  pre .atn,
+  code .atn {
+    color: #440044;
+  }
+  pre .atv,
+  code .atv {
+    color: #006600;
+  }
 }

@@ -4,7 +4,7 @@
   <?php endif; ?>
   <div class="sidebar-footer">
     <div class="container yue">
-      <p>© 2012-2014 <?php bloginfo('name'); ?> / Theme <a href="http://gaodaojing.com">Meridian</a></p>
+      <p>© 2012-2015 <?php bloginfo('name'); ?> / <?php bloginfo('description'); ?></p>
     </div>
   </div>
-</div><!-- end #sidebar -->
+</div>
